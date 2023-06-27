@@ -4,8 +4,9 @@
 # Run image
 # docker run -d -p 3000:3000 flowise
 
-FROM node:18-alpine
-RUN apk add --update libc6-compat python3 make g++
+FROM --platform=linux/amd64 node:18-alpine
+RUN apk add --no-cache python3 make g++
+RUN apk add --update libc6-compat
 # needed for pdfjs-dist
 RUN apk add --no-cache build-base cairo-dev pango-dev
 ENV PUPPETEER_SKIP_DOWNLOAD=true
