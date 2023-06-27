@@ -1,0 +1,32 @@
+# deployment.yaml
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "flowise"
+  labels:
+    app: "flowise"
+spec:
+  selector:
+    matchLabels:
+      app: "flowise"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "flowise"
+    spec:
+      containers:
+      - name: "flowise"
+        image: "europe-west12-docker.pkg.dev/lexsplore-6f2f5/container-registry-flowise/flowise:dev"
+        volumeMounts:
+        - mountPath: /data
+          name: flowise-volume
+        imagePullPolicy: "Always"
+        resources: 
+          requests:
+            cpu: 1
+            memory: "1Gi"
+      volumes:
+      - name: flowise-volume
+        persistentVolumeClaim:
+          claimName: flowise-pvc
